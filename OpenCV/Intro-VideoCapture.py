@@ -25,11 +25,9 @@ while (capture.isOpened()):
         font = cv2.FONT_HERSHEY_SIMPLEX
         text = "Width: " + str(capture.get(3)) + " Height: " + str(capture.get(4))
         date = "Date: " + str(datetime.datetime.now());
-        frame = cv2.putText(frame, text, (10, 50), font, 1, 
-                            (0, 255, 128), 2, cv2.LINE_AA)
+        frame = cv2.putText(frame, text, (10, 50), font, 1, (0, 255, 128), 2, cv2.LINE_AA)
 
-        frame = cv2.putText(frame, date, (10, 100), font, 1, 
-                            (0, 255, 128), 2, cv2.LINE_AA)
+        frame = cv2.putText(frame, date, (10, 100), font, 1, (0, 255, 128), 2, cv2.LINE_AA)
 
         #Convert frame to grayscale
         #gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
