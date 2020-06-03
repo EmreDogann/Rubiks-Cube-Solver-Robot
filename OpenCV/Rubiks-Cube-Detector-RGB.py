@@ -1,8 +1,11 @@
 import cv2
 import numpy as np
 import math
+import colour as colorSci
 
 capture = cv2.VideoCapture(0)
+# capture.set(3, 1280)
+# capture.set(4, 720)
 
 def callback(num):
     return
@@ -25,40 +28,41 @@ cv2.createTrackbar('Contour B', 'Settings', 0, 255, callback)
 cv2.createTrackbar('Exposure', 'Settings', 3, 12, callback)
 cv2.createTrackbar('Focus', 'Settings', 26, 51, callback)
 cv2.createTrackbar('Closing', 'Settings', 12, 50, callback)
+# cv2.createTrackbar('Opening', 'Settings', 0, 50, callback)
 
 cv2.namedWindow('Color Values', 0)
-cv2.createTrackbar('Red Hue', 'Color Values', 0, 180, callback)
-cv2.createTrackbar('Red Sat', 'Color Values', 255, 255, callback)
-cv2.createTrackbar('Red Val', 'Color Values', 255, 255, callback)
+cv2.createTrackbar('Red L', 'Color Values', 128, 255, callback)
+cv2.createTrackbar('Red A', 'Color Values', 204, 255, callback)
+cv2.createTrackbar('Red B', 'Color Values', 183, 255, callback)
 
-cv2.createTrackbar('Blue Hue', 'Color Values', 115, 180, callback)
-cv2.createTrackbar('Blue Sat', 'Color Values', 255, 255, callback)
-cv2.createTrackbar('Blue Val', 'Color Values', 255, 255, callback)
+cv2.createTrackbar('Blue L', 'Color Values', 128, 255, callback)
+cv2.createTrackbar('Blue A', 'Color Values', 185, 255, callback)
+cv2.createTrackbar('Blue B', 'Color Values', 120, 255, callback)
 
-cv2.createTrackbar('Yellow Hue', 'Color Values', 29, 180, callback)
-cv2.createTrackbar('Yellow Sat', 'Color Values', 255, 255, callback)
-cv2.createTrackbar('Yellow Val', 'Color Values', 255, 255, callback)
+cv2.createTrackbar('Yellow L', 'Color Values', 128, 255, callback)
+cv2.createTrackbar('Yellow A', 'Color Values', 142, 255, callback)
+cv2.createTrackbar('Yellow B', 'Color Values', 192, 255, callback)
 
-cv2.createTrackbar('Orange Hue', 'Color Values', 19, 180, callback)
-cv2.createTrackbar('Orange Sat', 'Color Values', 255, 255, callback)
-cv2.createTrackbar('Orange Val', 'Color Values', 255, 255, callback)
+cv2.createTrackbar('Orange L', 'Color Values', 128, 255, callback)
+cv2.createTrackbar('Orange A', 'Color Values', 204, 255, callback)
+cv2.createTrackbar('Orange B', 'Color Values', 188, 255, callback)
 
-cv2.createTrackbar('Green Hue', 'Color Values', 44, 180, callback)
-cv2.createTrackbar('Green Sat', 'Color Values', 255, 255, callback)
-cv2.createTrackbar('Green Val', 'Color Values', 255, 255, callback)
+cv2.createTrackbar('Green L', 'Color Values', 128, 255, callback)
+cv2.createTrackbar('Green A', 'Color Values', 81, 255, callback)
+cv2.createTrackbar('Green B', 'Color Values', 97, 255, callback)
 
-cv2.createTrackbar('White Hue', 'Color Values', 0, 180, callback)
-cv2.createTrackbar('White Sat', 'Color Values', 0, 255, callback)
-cv2.createTrackbar('White Val', 'Color Values', 255, 255, callback)
+cv2.createTrackbar('White L', 'Color Values', 128, 255, callback)
+cv2.createTrackbar('White A', 'Color Values', 86, 255, callback)
+cv2.createTrackbar('White B', 'Color Values', 98, 255, callback)
 
-# colorsHSV = {
-#     "Red": ([0, 255, 255]),
-#     "Orange": ([19, 255, 255]),
-#     "Yellow": ([29, 255, 255]),
-#     "Green": ([44, 255, 255]),
-#     "Blue": ([115, 255, 255]),
-#     "White": ([0, 0, 255])
-# }
+colorsLAB = {
+    "Red": ([0, 255, 255]),
+    "Orange": ([19, 255, 255]),
+    "Yellow": ([29, 255, 255]),
+    "Green": ([44, 255, 255]),
+    "Blue": ([115, 255, 255]),
+    "White": ([0, 0, 255])
+}
 
 colorsRGB = {
     "Red": ([255, 0, 0]),
@@ -87,13 +91,13 @@ def colourdistanceHSV(color1, color2):
     return math.sqrt(dh*dh+ds*ds+dv*dv)
 
 def computeContours(frame):
-    colorsHSV = {
-        "Red": ([cv2.getTrackbarPos('Red Hue', 'Color Values'), cv2.getTrackbarPos('Red Sat', 'Color Values'), cv2.getTrackbarPos('Red Val', 'Color Values')]),
-        "Orange": ([cv2.getTrackbarPos('Orange Hue', 'Color Values'), cv2.getTrackbarPos('Orange Sat', 'Color Values'), cv2.getTrackbarPos('Orange Val', 'Color Values')]),
-        "Yellow": ([cv2.getTrackbarPos('Yellow Hue', 'Color Values'), cv2.getTrackbarPos('Yellow Sat', 'Color Values'), cv2.getTrackbarPos('Yellow Val', 'Color Values')]),
-        "Green": ([cv2.getTrackbarPos('Green Hue', 'Color Values'), cv2.getTrackbarPos('Green Sat', 'Color Values'), cv2.getTrackbarPos('Green Val', 'Color Values')]),
-        "Blue": ([cv2.getTrackbarPos('Blue Hue', 'Color Values'), cv2.getTrackbarPos('Blue Sat', 'Color Values'), cv2.getTrackbarPos('Blue Val', 'Color Values')]),
-        "White": ([cv2.getTrackbarPos('White Hue', 'Color Values'), cv2.getTrackbarPos('White Sat', 'Color Values'), cv2.getTrackbarPos('White Val', 'Color Values')])
+    colorsLAB = {
+        "Red": ([cv2.getTrackbarPos('Red L', 'Color Values'), cv2.getTrackbarPos('Red A', 'Color Values'), cv2.getTrackbarPos('Red B', 'Color Values')]),
+        "Orange": ([cv2.getTrackbarPos('Orange L', 'Color Values'), cv2.getTrackbarPos('Orange A', 'Color Values'), cv2.getTrackbarPos('Orange B', 'Color Values')]),
+        "Yellow": ([cv2.getTrackbarPos('Yellow L', 'Color Values'), cv2.getTrackbarPos('Yellow A', 'Color Values'), cv2.getTrackbarPos('Yellow B', 'Color Values')]),
+        "Green": ([cv2.getTrackbarPos('Green L', 'Color Values'), cv2.getTrackbarPos('Green A', 'Color Values'), cv2.getTrackbarPos('Green B', 'Color Values')]),
+        "Blue": ([cv2.getTrackbarPos('Blue L', 'Color Values'), cv2.getTrackbarPos('Blue A', 'Color Values'), cv2.getTrackbarPos('Blue B', 'Color Values')]),
+        "White": ([cv2.getTrackbarPos('White L', 'Color Values'), cv2.getTrackbarPos('White A', 'Color Values'), cv2.getTrackbarPos('White B', 'Color Values')])
     }
 
     frame2 = frame.copy()
@@ -121,9 +125,19 @@ def computeContours(frame):
         gaus,
         cv2.getTrackbarPos('C', 'Settings'))
 
+    # frame2 = cv2.adaptiveThreshold(blur,
+    #     cv2.getTrackbarPos('Max Value', 'Settings'),
+    #     cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
+    #     cv2.THRESH_BINARY_INV,
+    #     gaus,
+    #     cv2.getTrackbarPos('C', 'Settings'))
+
     se1Size = keepOdd('Closing', 'Settings')
+    # se2Size = keepOdd('Opening', 'Settings')
     se1 = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (se1Size,se1Size))
+    # se2 = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (se2Size,se2Size))
     frame2 = cv2.morphologyEx(frame2, cv2.MORPH_CLOSE, se1)
+    # frame2 = cv2.morphologyEx(frame2, cv2.MORPH_OPEN, se2)
 
     (contours, hierarchy) = cv2.findContours(frame2.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
@@ -146,29 +160,31 @@ def computeContours(frame):
                     cX = int(M["m10"] / M["m00"])
                     cY = int(M["m01"] / M["m00"])
                     
-                    cv2.drawContours(frame, [approx], 0, (cv2.getTrackbarPos('Contour B', 'Settings'), cv2.getTrackbarPos('Contour G', 'Settings'), cv2.getTrackbarPos('Contour R', 'Settings')), 3)
+                    # cv2.drawContours(frame, [approx], 0, (cv2.getTrackbarPos('Contour B', 'Settings'), cv2.getTrackbarPos('Contour G', 'Settings'), cv2.getTrackbarPos('Contour R', 'Settings')), 3)
 
                     mask = np.zeros(frame2.shape, np.uint8)
                     cv2.drawContours(mask, [cnt], 0, 255, -1)
                     # pixelpoints = np.transpose(np.nonzero(mask))
 
-                    hsvFrame = cv2.cvtColor(frame.copy(), cv2.COLOR_BGR2HSV)
-                    cv2.imshow("HSV Feed", hsvFrame)
-                    meanVal = cv2.mean(hsvFrame, mask=mask)
-                    color = np.array((int(meanVal[0]), 255, 255), np.uint8)
-                    
+                    # hsvFrame = cv2.cvtColor(frame.copy(), cv2.COLOR_BGR2HSV)
+                    # labFrame = cv2.cvtColor(frame.astype(np.float32) / 255, cv2.COLOR_BGR2Lab)
+                    labFrame = cv2.cvtColor(frame, cv2.COLOR_BGR2Lab)
+                    meanVal = cv2.mean(labFrame, mask=mask)
+                    # color = np.array((int(meanVal[0]), 255, 255), np.uint8)
+                    color = np.array((128, int(meanVal[1]), int(meanVal[2])),np.uint8)
+                     
                     resultColor = {}
-                    for k,v in colorsHSV.items():
-                        resultColor[k]=colourdistanceHSV(v, color)
+                    for (k, v) in colorsLAB.items():
+                        resultColor[k] = colorSci.delta_E(v, color)
                     
                     #THIS WILL WORK FOR EVEN GREY
                     # print(resultColor)
                     finalColor = min(resultColor, key=resultColor.get)
-                    print(finalColor)
+                    # print(finalColor)
 
                     # print(color)
                     
-                    cv2.circle(frame, (cX, cY), 7, (0, 0, 0), -1)
+                    cv2.circle(frame, (cX, cY), 9, (0, 0, 0), -1)
                     cv2.circle(frame, (cX, cY), 5, (colorsRGB[finalColor][2], colorsRGB[finalColor][1], colorsRGB[finalColor][0]), -1)
             else:
                 # Square NOT detected. Draw square on original image in red.
@@ -195,6 +211,7 @@ while (capture.isOpened()):
     if ret:
         capture.set(cv2.CAP_PROP_EXPOSURE, (cv2.getTrackbarPos('Exposure', 'Settings')+1)*-1)
         capture.set(cv2.CAP_PROP_FOCUS, cv2.getTrackbarPos('Focus', 'Settings')*5)
+
         newFrame = computeContours(frame);
 
         for pos in mousePositions:
