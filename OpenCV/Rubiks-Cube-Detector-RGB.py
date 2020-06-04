@@ -32,7 +32,7 @@ cv2.createTrackbar('Closing', 'Settings', 12, 50, callback)
 
 cv2.namedWindow('Color Values', 0)
 cv2.createTrackbar('Red L', 'Color Values', 128, 255, callback)
-cv2.createTrackbar('Red A', 'Color Values', 204, 255, callback)
+cv2.createTrackbar('Red A', 'Color Values', 200, 255, callback)
 cv2.createTrackbar('Red B', 'Color Values', 183, 255, callback)
 
 cv2.createTrackbar('Blue L', 'Color Values', 128, 255, callback)
@@ -44,16 +44,16 @@ cv2.createTrackbar('Yellow A', 'Color Values', 142, 255, callback)
 cv2.createTrackbar('Yellow B', 'Color Values', 192, 255, callback)
 
 cv2.createTrackbar('Orange L', 'Color Values', 128, 255, callback)
-cv2.createTrackbar('Orange A', 'Color Values', 204, 255, callback)
-cv2.createTrackbar('Orange B', 'Color Values', 188, 255, callback)
+cv2.createTrackbar('Orange A', 'Color Values', 186, 255, callback)
+cv2.createTrackbar('Orange B', 'Color Values', 185, 255, callback)
 
 cv2.createTrackbar('Green L', 'Color Values', 128, 255, callback)
 cv2.createTrackbar('Green A', 'Color Values', 81, 255, callback)
-cv2.createTrackbar('Green B', 'Color Values', 97, 255, callback)
+cv2.createTrackbar('Green B', 'Color Values', 107, 255, callback)
 
 cv2.createTrackbar('White L', 'Color Values', 128, 255, callback)
-cv2.createTrackbar('White A', 'Color Values', 86, 255, callback)
-cv2.createTrackbar('White B', 'Color Values', 98, 255, callback)
+cv2.createTrackbar('White A', 'Color Values', 100, 255, callback)
+cv2.createTrackbar('White B', 'Color Values', 100, 255, callback)
 
 colorsLAB = {
     "Red": ([0, 255, 255]),
