@@ -1,3 +1,6 @@
+# Update (13/6/2022):
+While working on this project I decided that it would be best to work on a version 2 instead as then I could address some of the other issues I had with this inital design. So I am currently working on version 2 of the solver. When it is ready I will be posting it to my Github as well as my [Printables page](https://www.printables.com/social/261266-dwo/about).
+
 # Rubik Cube Solver Robot
 Robot that solves any scramble given to it.
 
